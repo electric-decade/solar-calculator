@@ -1,0 +1,23 @@
+
+dependencies {
+
+// https://mvnrepository.com/artifact/org.simpleflatmapper/sfm-csv-jre9
+compile group: 'org.simpleflatmapper', name: 'sfm-csv-jre9', version: '8.2.1'
+
+// https://mvnrepository.com/artifact/io.helidon.webserver/helidon-webserver
+compile group: 'io.helidon.webserver', name: 'helidon-webserver', version: '1.4.1'
+
+// https://mvnrepository.com/artifact/io.helidon.webserver/helidon-webserver-netty
+compile group: 'io.helidon.webserver', name: 'helidon-webserver-netty', version: '0.10.6'
+
+// https://mvnrepository.com/artifact/io.helidon.webserver/helidon-webserver-json
+compile group: 'io.helidon.webserver', name: 'helidon-webserver-json', version: '0.11.0'
+
+// https://mvnrepository.com/artifact/io.helidon.media.jackson/helidon-media-jackson-server
+compile group: 'io.helidon.media.jackson', name: 'helidon-media-jackson-server', version: '1.4.1'
+
+// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+}
+

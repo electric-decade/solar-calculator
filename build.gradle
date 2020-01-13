@@ -1,0 +1,29 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+	jcenter()
+    }
+}
+
+
+subprojects {
+    defaultTasks 'assemble'
+
+    apply plugin: 'java'
+    sourceSets {
+        main {
+            resources {
+                srcDirs 'src/main/resources', 'src/main/java'
+            }
+        }
+    }
+
+    apply plugin: 'eclipse'
+
+
+    repositories {
+	mavenCentral()
+    }
+}
+
