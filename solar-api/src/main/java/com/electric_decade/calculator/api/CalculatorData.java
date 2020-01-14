@@ -7,6 +7,7 @@ import java.util.Map;
 public class CalculatorData {
 
     public static final String CONSUMPTION = "consumption";
+    public static final String EXPORT = "export";
     public static final String GENERATION = "generation";
 
     private Map<String, List<SeriesDay>> data;

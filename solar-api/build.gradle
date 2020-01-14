@@ -1,4 +1,9 @@
 
+plugins {
+  id 'com.google.cloud.tools.jib' version '1.8.0'
+}
+
+
 dependencies {
 
 // https://mvnrepository.com/artifact/org.simpleflatmapper/sfm-csv-jre9
@@ -19,5 +24,21 @@ compile group: 'io.helidon.media.jackson', name: 'helidon-media-jackson-server',
 // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
 compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
+}
+
+
+jib {
+ extraDirectories.paths = ['extras']
+ from {
+   //image = 'gcr.io/distroless/java:11-debug'
+   image = 'docker://adoptopenjdk:11.0.5_10-jdk-hotspot'
+ }
+ to {
+   image = 'electricdecade/solar-calculator'
+ }
+ container {
+   ports = [ '8080' ]
+   workingDirectory = '/app'
+ }
 }
 
