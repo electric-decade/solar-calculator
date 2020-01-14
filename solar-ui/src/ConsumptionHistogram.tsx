@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
   Scatter,
   ScatterChart,
   Tooltip,
@@ -18,16 +19,21 @@ import {
 
 import { CalculatorData, ChartProps } from './Common';
 
+type ChartState = {
+    ninety: number
+}
 
-
-export default class ConsumptionHistogramChart extends Component<ChartProps> {
+export default class ConsumptionHistogramChart extends Component< ChartProps, ChartState> {
 
     static defaultProps = {
         data: [ { time:1, value:1}, { time:2, value:2}, { time:3, value:3}, { time:4, value:4} ]
     }
 
+    state: ChartState;
+
     constructor(props: ChartProps) {
         super(props)
+        this.state = {ninety: 0};
     }
 
     prepareData() {
@@ -41,11 +47,13 @@ export default class ConsumptionHistogramChart extends Component<ChartProps> {
         startDate.setMinutes(0);
         var data = [];
 
+        var totalDays = 0;
         if (this.props.vecData.consumption.length > 0) {
 
             var consumption = this.props.vecData.consumption;
             var max = 0;
             for (x=0; x < consumption.length; x++) {
+                totalDays++;
                 if (consumption[x].sum > max) {
                     max = consumption[x].sum;
                 }
@@ -62,6 +70,16 @@ export default class ConsumptionHistogramChart extends Component<ChartProps> {
             for (x=0; x < consumption.length; x++) {
                 var sum = Math.ceil(consumption[x].sum);
                 data[sum].days++;
+            }
+
+            var ninetieth = totalDays * 0.9;
+            var counter = 0;
+            for (x=0; x < data.length; x++) {
+                counter += data[x].days;
+                if (counter > ninetieth) {
+                    this.state.ninety = x;
+                    break;
+                }
             }
 
 
@@ -85,6 +103,7 @@ export default class ConsumptionHistogramChart extends Component<ChartProps> {
                     <XAxis  domain = {['auto', 'auto']} />
                     <YAxis unit=" days"/>
                     <Tooltip />
+                    <ReferenceLine x={this.state.ninety} stroke="red" label="90th percentile" />
                     <Bar  dataKey="days" stroke="#8884d8" stackId="a" />
                 </BarChart>
             </ResponsiveContainer>

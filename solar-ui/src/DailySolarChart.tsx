@@ -74,7 +74,7 @@ export default class DailySolarChart extends Component<ChartProps> {
                     }
                 }
 
-                data.push( { time: day.getTime(), import: sumImportKwh, export: sumExportKwh, solar: sumConsumeSolarKwh } );
+                data.push( { time: day.getTime(), import: sumImportKwh, export: -sumExportKwh, solar: sumConsumeSolarKwh } );
 
                 cost+= .9236;
                 cost+= (.2927 * sumImportKwh);
@@ -110,7 +110,7 @@ export default class DailySolarChart extends Component<ChartProps> {
                     <Tooltip labelFormatter={t => moment(t).format('DD MMM YYYY')} />
                     <Bar  dataKey="solar" stroke="#008800" stackId="a" unit=" kwh"  />
                     <Bar  dataKey="import" stroke="#880000" stackId="a" unit=" kwh"  />
-                    <Bar  dataKey="export" stroke="#000088" stackId="a" unit=" kwh"  />
+                    <Bar  dataKey="export" stroke="#000088" stackId="b" unit=" kwh"  />
                     
                 </BarChart>
             </ResponsiveContainer>

@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
   Scatter,
   ScatterChart,
   Tooltip,
@@ -18,16 +19,22 @@ import {
 
 import { CalculatorData, ChartProps } from './Common';
 
+type ChartState = {
+    ninety: number
+}
 
 
-export default class DailySolarChart extends Component<ChartProps> {
+export default class DailySolarChart extends Component<ChartProps, ChartState> {
 
     static defaultProps = {
         data: []
     }
 
+    state: ChartState;
+
     constructor(props: ChartProps) {
         super(props)
+        this.state = {ninety: 0};
     }
 
 
@@ -51,7 +58,9 @@ export default class DailySolarChart extends Component<ChartProps> {
 
             var maxImport = 0;
             var cost = 0;
+            var dayCount = 0;
             for (x=0; x < consumption.length; x++) {
+                dayCount++;
                 var day = new Date();
                 day.setFullYear(consumption[x].date[0],consumption[x].date[1]-1,consumption[x].date[2]-1);
                 day.setHours(0);
@@ -96,6 +105,16 @@ export default class DailySolarChart extends Component<ChartProps> {
                 data[sum].days++;
             }
 
+
+            var ninetieth = dayCount * 0.9;
+            var counter = 0;
+            for (x=0; x < data.length; x++) {
+                counter += data[x].days;
+                if (counter > ninetieth) {
+                    this.state.ninety = x;
+                    break;
+                }
+            }
             
 
         } else {
@@ -118,6 +137,7 @@ export default class DailySolarChart extends Component<ChartProps> {
                     <XAxis domain = {['auto', 'auto']} />
                     <YAxis unit=" days"/>
                     <Tooltip  />
+                    <ReferenceLine x={this.state.ninety} stroke="red" label="90th percentile" />
                     <Bar  dataKey="days" stroke="#880000"  unit=" days"  />
                     
                 </BarChart>
