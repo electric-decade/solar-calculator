@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 import {CalculatorData} from './Common';
 
@@ -32,7 +32,6 @@ export default class VecUploadForm extends React.Component<VecUploadProps, VecUp
     onFormSubmit(e:any){
         e.preventDefault() // Stop form submit
         this.fileUpload(this.state.file).then((response)=>{
-          console.log(response.data.consumption);
           this.props.vecData.consumption = response.data.consumption;
           this.props.vecData.generation = response.data.generation;
           this.props.update(this.props.vecData);

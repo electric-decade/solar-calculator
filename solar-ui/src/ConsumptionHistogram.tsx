@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import moment from 'moment'
 import {
-    LineChart,
-    Line,
     BarChart,
     Bar,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 
-import { CalculatorData, ChartProps } from './Common';
+import { ChartProps } from './Common';
 
 type ChartState = {
     ninety: number
@@ -37,57 +29,46 @@ export default class ConsumptionHistogramChart extends Component< ChartProps, Ch
     }
 
     prepareData() {
-        console.log("prepareData");
+        var data;
+        var x : number;
 
-        var startDate = new Date();
-        startDate.setFullYear(2019,0,0);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMinutes(0);
-        var data = [];
-
-        var totalDays = 0;
         if (this.props.vecData.consumption.length > 0) {
 
             var consumption = this.props.vecData.consumption;
             var max = 0;
+            var totalSum = 0;
             for (x=0; x < consumption.length; x++) {
-                totalDays++;
+                totalSum += consumption[x].sum;
                 if (consumption[x].sum > max) {
                     max = consumption[x].sum;
                 }
             }
 
             var intvalue = Math.ceil( max+1 ); 
-            var data = new Array(intvalue);
+            
+            data = new Array(intvalue);
             for (x=0; x <intvalue; x++) {
                 data[x] = {days:0};
             }
-            
-            var x = 0;
             
             for (x=0; x < consumption.length; x++) {
                 var sum = Math.ceil(consumption[x].sum);
                 data[sum].days++;
             }
 
-            var ninetieth = totalDays * 0.9;
+            var ninetieth = totalSum * 0.8;
             var counter = 0;
             for (x=0; x < data.length; x++) {
-                counter += data[x].days;
+                counter += (data[x].days * x);
                 if (counter > ninetieth) {
                     this.state.ninety = x;
                     break;
                 }
             }
 
-
         } else {
-
-            var x =0;
-            for ( x=0; x<100; x++) {
-                
+            data = [];
+            for (x=0; x<100; x++) {            
                 data.push( { days:0} );
             }
         }
@@ -103,7 +84,7 @@ export default class ConsumptionHistogramChart extends Component< ChartProps, Ch
                     <XAxis  domain = {['auto', 'auto']} />
                     <YAxis unit=" days"/>
                     <Tooltip />
-                    <ReferenceLine x={this.state.ninety} stroke="red" label="90th percentile" />
+                    <ReferenceLine x={this.state.ninety} stroke="red" label="80th percentile" />
                     <Bar  dataKey="days" stroke="#8884d8" stackId="a" />
                 </BarChart>
             </ResponsiveContainer>

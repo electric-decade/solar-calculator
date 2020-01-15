@@ -2,12 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import DailyUsageChart from './DailyUsageChart';
-import VecUploadForm from './VecUploadForm';
 import * as serviceWorker from './serviceWorker';
-import {CalculatorData} from './Common';
-
-var data:CalculatorData = { consumption:[], generation:[]} 
 
 //ReactDOM.render(<VecUploadForm vecData={data} />, document.getElementById('form'));
 ReactDOM.render(<App  />, document.getElementById('form'));

@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { CalculatorData} from './Common';
 import VecUploadForm from './VecUploadForm';
@@ -8,6 +7,7 @@ import ConsumptionHistogramChart from './ConsumptionHistogram';
 import TimeOfUsageChart from './TimeOfUsageChart';
 import DailySolarChart from './DailySolarChart';
 import ImportHistogram from './ImportHistogram';
+import DailyBatteryChart from './DailyBatteryChart';
 
 //const App: React.FC = () => {
 class App extends React.Component {
@@ -18,6 +18,7 @@ class App extends React.Component {
   private timeOfUsage = React.createRef<TimeOfUsageChart>();
   private dailySolarChart = React.createRef<DailySolarChart>();
   private importHistogram = React.createRef<ImportHistogram>();
+  private dailyBatteryChart = React.createRef<DailyBatteryChart>();
 
   constructor(props:any) {
     super(props);
@@ -32,6 +33,7 @@ class App extends React.Component {
     this.timeOfUsage.current!.forceUpdate();
     this.dailySolarChart.current!.forceUpdate();
     this.importHistogram.current!.forceUpdate();
+    this.dailyBatteryChart.current!.forceUpdate();
     console.log( "update");
   }
 
@@ -42,8 +44,11 @@ class App extends React.Component {
         <div><DailyUsageChart vecData={this.data} ref={this.usageChart} /></div>
         <div><ConsumptionHistogramChart vecData={this.data} ref={this.usageHistogram} /></div>
         <div><TimeOfUsageChart vecData={this.data} ref={this.timeOfUsage} /></div>
-        <div><DailySolarChart vecData={this.data} ref={this.dailySolarChart} /></div>
-        <div><ImportHistogram vecData={this.data} ref={this.importHistogram} /></div>
+        <div>
+          <div><DailySolarChart vecData={this.data} ref={this.dailySolarChart} /></div>
+          <div><ImportHistogram vecData={this.data} ref={this.importHistogram} /></div>
+        </div>
+        <div><DailyBatteryChart vecData={this.data} ref={this.dailyBatteryChart} /></div>
       </div>
     );
 

@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import moment from 'moment'
 import {
-    LineChart,
-    Line,
     BarChart,
     Bar,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 
-import { CalculatorData, ChartProps } from './Common';
+import { ChartProps } from './Common';
 
 
 
@@ -26,25 +19,12 @@ export default class DailySolarChart extends Component<ChartProps> {
         data: []
     }
 
-    constructor(props: ChartProps) {
-        super(props)
-    }
-
-
     prepareData() {
-        console.log("prepareData");
-
-        var startDate = new Date();
-        startDate.setFullYear(2019,0,0);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMinutes(0);
         var data = [];
 
         if (this.props.vecData.consumption.length > 0) {
 
-            var x = 0;
+            var x:number = 0;
             var consumption = this.props.vecData.consumption;
             var generation = this.props.vecData.generation;
 
@@ -78,16 +58,20 @@ export default class DailySolarChart extends Component<ChartProps> {
 
                 cost+= .9236;
                 cost+= (.2927 * sumImportKwh);
-                cost-= (.12 * sumConsumeSolarKwh);
+                cost-= (.12 * sumExportKwh);
             }
 
             console.log("Total cost: " + cost);
 
         } else {
+            var startDate = new Date();
+            startDate.setFullYear(2019,0,0);
+            startDate.setHours(0);
+            startDate.setMinutes(0);
+            startDate.setSeconds(0);
+            startDate.setMinutes(0);
 
-            var x =0;
-            for ( x=0; x<365; x++) {
-                
+            for (x=0; x<365; x++) {   
                 data.push( { time: (startDate.getTime()+(x*86400*1000)), value:0} );
             }
         }

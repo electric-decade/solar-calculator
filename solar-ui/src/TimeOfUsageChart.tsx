@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import moment from 'moment'
 import {
-    LineChart,
-    Line,
     BarChart,
     Bar,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 
-import { CalculatorData, ChartProps } from './Common';
+import { ChartProps } from './Common';
 
 
 export default class TimeOfUsageChart extends Component<ChartProps> {
@@ -25,31 +17,25 @@ export default class TimeOfUsageChart extends Component<ChartProps> {
         data: []
     }
 
-    constructor(props: ChartProps) {
-        super(props)
-    }
-
-
-    prepareData() {
-
-        
-        var data = [];
+    prepareData() {   
+        var x:number;
+        var y:number;
+        var data;
 
         if (this.props.vecData.consumption.length > 0) {
 
             var consumption = this.props.vecData.consumption;
+            
 
-            var data = new Array(48);
+            data = new Array(48);
             for (x=0; x <48; x++) {
                 data[x] = {kwh:0};
             }
             
-            var x = 0;
-            
             var dayCount = 0;
             for (x=0; x < consumption.length; x++) {
                 dayCount++;
-                var y =0;
+
                 for (y=0; y < consumption[x].intervals.length; y++) {
                     data[y].kwh += consumption[x].intervals[y];       
                 }
@@ -61,9 +47,8 @@ export default class TimeOfUsageChart extends Component<ChartProps> {
             }
 
         } else {
-
-            var x =0;
-            for ( x=0; x<24; x++) {
+            data = [];
+            for (x=0; x<24; x++) {
                 
                 data.push( { kwh:0} );
             }

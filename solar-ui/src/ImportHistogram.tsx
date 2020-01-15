@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import moment from 'moment'
 import {
-    LineChart,
-    Line,
     BarChart,
     Bar,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 
-import { CalculatorData, ChartProps } from './Common';
+import { ChartProps } from './Common';
 
 type ChartState = {
     ninety: number
@@ -39,28 +31,17 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
 
 
     prepareData() {
-        console.log("prepareData");
-
-        var startDate = new Date();
-        startDate.setFullYear(2019,0,0);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMinutes(0);
-        var data = [];
-
+        var x : number = 0;
+        var data;
         var importData = [];
+        var importTotal = 0;
         if (this.props.vecData.consumption.length > 0) {
-
-            var x = 0;
             var consumption = this.props.vecData.consumption;
             var generation = this.props.vecData.generation;
 
-            var maxImport = 0;
-            var cost = 0;
-            var dayCount = 0;
+            var maxImport = 0;   
             for (x=0; x < consumption.length; x++) {
-                dayCount++;
+                
                 var day = new Date();
                 day.setFullYear(consumption[x].date[0],consumption[x].date[1]-1,consumption[x].date[2]-1);
                 day.setHours(0);
@@ -89,27 +70,25 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
                     maxImport = sumImportKwh;
                 }
 
+                importTotal += sumImportKwh;
                 importData.push( { time: day.getTime(), import: sumImportKwh, export: sumExportKwh, solar: sumConsumeSolarKwh } );
             }
 
             var intvalue = Math.ceil( maxImport+1 ); 
-            var data = new Array(intvalue);
+            data = new Array(intvalue);
             for (x=0; x <intvalue; x++) {
                 data[x] = {days:0};
             }
-            
-            var x = 0;
             
             for (x=0; x < importData.length; x++) {
                 var sum = Math.ceil(importData[x].import);
                 data[sum].days++;
             }
 
-
-            var ninetieth = dayCount * 0.9;
+            var ninetieth = importTotal * 0.8;
             var counter = 0;
             for (x=0; x < data.length; x++) {
-                counter += data[x].days;
+                counter += (data[x].days * x);
                 if (counter > ninetieth) {
                     this.state.ninety = x;
                     break;
@@ -118,10 +97,16 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
             
 
         } else {
+            data = [];
+            
+            var startDate = new Date();
+            startDate.setFullYear(2019,0,0);
+            startDate.setHours(0);
+            startDate.setMinutes(0);
+            startDate.setSeconds(0);
+            startDate.setMinutes(0);
 
-            var x =0;
             for ( x=0; x<365; x++) {
-                
                 data.push( { time: (startDate.getTime()+(x*86400*1000)), value:0} );
             }
         }
@@ -137,7 +122,7 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
                     <XAxis domain = {['auto', 'auto']} />
                     <YAxis unit=" days"/>
                     <Tooltip  />
-                    <ReferenceLine x={this.state.ninety} stroke="red" label="90th percentile" />
+                    <ReferenceLine x={this.state.ninety} stroke="red" label="80th percentile" />
                     <Bar  dataKey="days" stroke="#880000"  unit=" days"  />
                     
                 </BarChart>

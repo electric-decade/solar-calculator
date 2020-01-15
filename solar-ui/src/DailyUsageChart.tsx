@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import moment from 'moment'
 import {
-    LineChart,
-    Line,
     BarChart,
     Bar,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
@@ -29,25 +22,13 @@ export default class DailyUsageChart extends Component<DailyUsageProps> {
         data: []
     }
 
-    constructor(props: DailyUsageProps) {
-        super(props)
-    }
-
-
     prepareData() {
-        console.log("prepareData");
-
-        var startDate = new Date();
-        startDate.setFullYear(2019,0,0);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMinutes(0);
+        var x:number = 0;
         var data = [];
 
         if (this.props.vecData.consumption.length > 0) {
 
-            var x = 0;
+            
             var consumption = this.props.vecData.consumption;
             var cost = 0;
             for (x=0; x < consumption.length; x++) {
@@ -66,8 +47,14 @@ export default class DailyUsageChart extends Component<DailyUsageProps> {
 
         } else {
 
-            var x =0;
-            for ( x=0; x<365; x++) {
+            var startDate = new Date();
+            startDate.setFullYear(2019,0,0);
+            startDate.setHours(0);
+            startDate.setMinutes(0);
+            startDate.setSeconds(0);
+            startDate.setMinutes(0);
+
+            for (x=0; x<365; x++) {
                 
                 data.push( { time: (startDate.getTime()+(x*86400*1000)), value:0} );
             }
