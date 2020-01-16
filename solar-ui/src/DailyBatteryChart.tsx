@@ -12,9 +12,14 @@ import {
 import { ChartProps } from './Common';
 
 type ChartState = {
+    dailyCharge: number;
+    importCost: number;
+    feedInTariff: number;
+    cost: number;
     batteryKwh: number
     batteryMaxKwh: number
 }
+
 
 
 export default class DailyBatteryChart extends Component<ChartProps, ChartState> {
@@ -27,9 +32,8 @@ export default class DailyBatteryChart extends Component<ChartProps, ChartState>
 
     constructor(props: ChartProps) {
         super(props)
-        this.state = {batteryKwh: 0, batteryMaxKwh: 13.5};
+        this.state = {batteryKwh: 0, batteryMaxKwh: 13.5, dailyCharge: 0.9236, importCost: 0.23272, feedInTariff: 0.125, cost: 0};
     }
-
 
     prepareData() {
         var x : number = 0;
@@ -96,12 +100,12 @@ export default class DailyBatteryChart extends Component<ChartProps, ChartState>
 
                 data.push( { time: day.getTime(), import: sumImportKwh.toFixed(2), export: -sumExportKwh.toFixed(2), solar: sumConsumeSolarKwh.toFixed(2), charge: -sumBatteryCharge.toFixed(2), discharge: sumBatteryDischarge.toFixed(2) } );
 
-                cost+= .9236;
-                cost+= (.2927 * sumImportKwh);
-                cost-= (.12 * sumExportKwh);
+                cost+= this.state.dailyCharge;
+                cost+= (this.state.importCost * sumImportKwh);
+                cost-= (this.state.feedInTariff * sumExportKwh);
             }
 
-            console.log("Total cost: " + cost);
+            this.state.cost = Math.floor(cost);
 
         } else {
             var startDate = new Date();
@@ -123,6 +127,12 @@ export default class DailyBatteryChart extends Component<ChartProps, ChartState>
     render() {
         return (
             <div className="daily-chart">
+                <hr/>
+                <h2>Solar PV and Battery Simulator</h2>
+                <p>This graph simulates adding a 7kw solar PV system and a 13.5 kwh battery (e.g. A Tesla Powerwall) to your house. The graph
+                    shows the amount of energy charged and discharged to the battery, amount of energy exported to the grid (blue), amount of solar 
+                    energy used by the house during the day (green) and the amount of energy imported from the grid (green).  The estimated cost
+                    is for the full period of data supplied. </p>
             <ResponsiveContainer width = '95%' height = {300}  >
                 <BarChart width={400} height={400} data={this.prepareData()}  margin={{top: 5, right: 5, left: 30, bottom: 5}} >
                     <XAxis dataKey="time"
@@ -138,10 +148,13 @@ export default class DailyBatteryChart extends Component<ChartProps, ChartState>
                     <Bar  dataKey="import" stroke="#880000" stackId="a" unit=" kwh"  />
                     <Bar  dataKey="charge" stroke="#008888" stackId="b" unit=" kwh"  />
                     <Bar  dataKey="export" stroke="#000088" stackId="b" unit=" kwh"  />
-                    
-                    
                 </BarChart>
             </ResponsiveContainer>
+            <div>Daily charge: <b>{this.state.dailyCharge}</b>&nbsp;
+            Import cost/kwh: <b>{this.state.importCost}</b>&nbsp;
+            Feed in tariff/kwh: <b>{this.state.feedInTariff}</b>&nbsp;
+        Estimated cost: <b>${this.state.cost}</b>
+            </div>
             </div>
         ); 
     }

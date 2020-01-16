@@ -58,10 +58,8 @@ export default class VecUploadForm extends React.Component<VecUploadProps, VecUp
     render() {
       return (
         <form onSubmit={this.onFormSubmit}>
-          <h1>File Upload</h1>
-          <p>Select Victorian Energy Compare data:</p>
           <input type="file" onChange={this.onChange} />
-          <button type="submit">Upload</button>
+          <button type="submit">Simulate</button>
         </form>
       );
     }

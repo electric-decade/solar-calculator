@@ -45,7 +45,7 @@ export default class ConsumptionHistogramChart extends Component< ChartProps, Ch
             }
 
             var intvalue = Math.ceil( max+1 ); 
-            
+
             data = new Array(intvalue);
             for (x=0; x <intvalue; x++) {
                 data[x] = {days:0};
@@ -68,7 +68,7 @@ export default class ConsumptionHistogramChart extends Component< ChartProps, Ch
 
         } else {
             data = [];
-            for (x=0; x<100; x++) {            
+            for (x=0; x<50; x++) {            
                 data.push( { days:0} );
             }
         }
@@ -79,9 +79,14 @@ export default class ConsumptionHistogramChart extends Component< ChartProps, Ch
     render() {
         return (
             <div className="daily-chart">
+                <hr/>
+                <h2>Usage Histogram</h2>
+                <p>This shows a histogram of the amount of energy used each day.  The x-axis is the amount of energy used in a day, and the y-axis is the number of days that used
+                    that amount of energy.  The 80th percentile is marked to provide a way of estimating the size of a solar PV system.
+                </p>
             <ResponsiveContainer width = '95%' height = {300}  >
                 <BarChart width={400} height={400} data={this.prepareData()}  margin={{top: 5, right: 5, left: 30, bottom: 5}} >
-                    <XAxis  domain = {['auto', 'auto']} />
+                    <XAxis  domain = {['auto', 'auto']} unit="kwh" minTickGap= {100} />
                     <YAxis unit=" days"/>
                     <Tooltip />
                     <ReferenceLine x={this.state.ninety} stroke="red" label="80th percentile" />

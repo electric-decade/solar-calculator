@@ -106,7 +106,7 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
             startDate.setSeconds(0);
             startDate.setMinutes(0);
 
-            for ( x=0; x<365; x++) {
+            for ( x=0; x<50; x++) {
                 data.push( { time: (startDate.getTime()+(x*86400*1000)), value:0} );
             }
         }
@@ -117,11 +117,16 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
     render() {
         return (
             <div className="daily-chart">
+                <hr/>
+                <h2>Import Histogram</h2>
+                <p>This graph shows an import energy histogram based on having a solar system installed. The x-axis shows the amount of energy that is imported each day.
+                    The y-axis shows the number of days that amount of energy was imported from the grid. The 80th percentil is marked to assist in choosing
+                    a battery size that will cover 80% of days.</p>
             <ResponsiveContainer width = '95%' height = {300}  >
                 <BarChart width={400} height={400} data={this.prepareData()}  margin={{top: 5, right: 5, left: 30, bottom: 5}} >
-                    <XAxis domain = {['auto', 'auto']} />
+                    <XAxis domain = {['auto', 'auto']} unit="kwh" minTickGap= {100} />
                     <YAxis unit=" days"/>
-                    <Tooltip  />
+                    <Tooltip   />
                     <ReferenceLine x={this.state.ninety} stroke="red" label="80th percentile" />
                     <Bar  dataKey="days" stroke="#880000"  unit=" days"  />
                     

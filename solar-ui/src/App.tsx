@@ -15,7 +15,7 @@ class App extends React.Component {
   private data:CalculatorData = { consumption:[], generation:[]}
   private usageChart = React.createRef<DailyUsageChart>();
   private usageHistogram = React.createRef<ConsumptionHistogramChart>();
-  private timeOfUsage = React.createRef<TimeOfUsageChart>();
+  //private timeOfUsage = React.createRef<TimeOfUsageChart>();
   private dailySolarChart = React.createRef<DailySolarChart>();
   private importHistogram = React.createRef<ImportHistogram>();
   private dailyBatteryChart = React.createRef<DailyBatteryChart>();
@@ -26,24 +26,22 @@ class App extends React.Component {
   }
 
   update(data:CalculatorData) {
-    console.log( "app update");
-    console.log( this);
     this.usageChart.current!.forceUpdate();
     this.usageHistogram.current!.forceUpdate();
-    this.timeOfUsage.current!.forceUpdate();
+    //this.timeOfUsage.current!.forceUpdate();
     this.dailySolarChart.current!.forceUpdate();
     this.importHistogram.current!.forceUpdate();
     this.dailyBatteryChart.current!.forceUpdate();
-    console.log( "update");
   }
 
+  // <div><TimeOfUsageChart vecData={this.data} ref={this.timeOfUsage} /></div>
   render( ) {
     return (
       <div className="App">
         <div><VecUploadForm vecData={this.data} update={this.update} /></div>
         <div><DailyUsageChart vecData={this.data} ref={this.usageChart} /></div>
         <div><ConsumptionHistogramChart vecData={this.data} ref={this.usageHistogram} /></div>
-        <div><TimeOfUsageChart vecData={this.data} ref={this.timeOfUsage} /></div>
+        
         <div>
           <div><DailySolarChart vecData={this.data} ref={this.dailySolarChart} /></div>
           <div><ImportHistogram vecData={this.data} ref={this.importHistogram} /></div>

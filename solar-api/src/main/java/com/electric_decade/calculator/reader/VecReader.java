@@ -123,7 +123,7 @@ public class VecReader {
 
         if (consumptionData.size() > 0) {
             result.addSeries(CalculatorData.CONSUMPTION, consumptionData);
-            result.addSeries(CalculatorData.GENERATION, getSolar(consumptionData, 2.0f));
+            result.addSeries(CalculatorData.GENERATION, getSolar(consumptionData, 1.3f));
         }
         if (generationData.size() > 0) {
             result.addSeries(CalculatorData.EXPORT, generationData);

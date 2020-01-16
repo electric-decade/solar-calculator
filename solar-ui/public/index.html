@@ -24,12 +24,29 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Victorian Energy Compare Solar Simulator</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="form"></div>
-    <div id="dailyUsageGraph"></div>
+    <h1>Victorian Energy Compare Solar Simulator</h1>
+    <p>The <a href="https://compare.energy.vic.gov.au/">Victorian Energy Compare</a> website was provided to help you find the best deal
+    between avilable retailers based on your actual energy usage supplied by your retailer or energy distributor.   This site uses the Victoian energy compare data format to simulate adding solar and batteries to your house.  To use this site you need to get your Victorian
+energy compare data from <a href="https://vec.ausnetservices.com.au/">AusNet</a>, <a href="http://www.energyeasy.ue.com.au">UnitedEnergy</a>, <a href="http://electricityoutlook.jemena.com.au">Jemena</a>  or <a href="www.citipower.com.au/our-services/myenergy">CitiPower</a>.
+If you need help getting your data follow the directions on the <a href="https://compare.energy.vic.gov.au/">Victorian Energy Compare</a> to compare energy and choose to "Upload a data file" when
+asked "How would you like to build your energy usage profile?"</div></p>
+      <p>To use this site simply click the "Choose file" button and select your victorian energy compare data file.  Then click the "Simulate" button</p>
+    
+    <p>Notes
+      <ul>
+          <li>The site is still being developed and tested. Feedback appreciated via <a href="https://twitter.com/electric_decade">Twitter</a></li>
+          <li>The Victorian Energy Compare data file does not contain any identifying data. We don't store any data</li>
+          <li>The site is completely open source and you can help make it better. We obviously need help making it look better! Check out the code <a href="https://github.com/electric-decade/solar-calculator">here</a></li>
+          <li>The site is optimised for data that does not already have solar generation.</li>
+      </ul>
+    </p>
+    <p>Select Victorian Energy Compare data file</p>
+    <div id="app"></div>
+    
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
