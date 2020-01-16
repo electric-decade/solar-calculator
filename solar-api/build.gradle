@@ -6,6 +6,8 @@ plugins {
 
 dependencies {
 
+compile project(":solar-ui")
+
 // https://mvnrepository.com/artifact/org.simpleflatmapper/sfm-csv-jre9
 compile group: 'org.simpleflatmapper', name: 'sfm-csv-jre9', version: '8.2.1'
 
@@ -26,6 +28,17 @@ compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
 }
 
+task cleanUi(type: Delete) {
+    delete 'extras/app/web'
+}
+cleanUi.dependsOn ':solar-ui:bundle'
+
+task copyUi(type: Copy) {
+    from "../solar-ui/build"
+    into "extras/app/web"
+}
+
+copyUi.dependsOn cleanUi 
 
 jib {
  extraDirectories.paths = ['extras']
@@ -37,8 +50,15 @@ jib {
    image = 'electricdecade/solar-calculator'
  }
  container {
+   mainClass = 'com.electric_decade.calculator.SolarCalculatorServer'
    ports = [ '8080' ]
    workingDirectory = '/app'
  }
+}
+
+
+task publish {
+    dependsOn 'copyUi'
+    dependsOn 'jib'
 }
 
