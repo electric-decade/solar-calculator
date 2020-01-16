@@ -120,7 +120,7 @@ export default class DailySolarChart extends Component<ChartProps, ChartState> {
                 <hr/>
                 <h2>Import Histogram</h2>
                 <p>This graph shows an import energy histogram based on having a solar system installed. The x-axis shows the amount of energy that is imported each day.
-                    The y-axis shows the number of days that amount of energy was imported from the grid. The 80th percentil is marked to assist in choosing
+                    The y-axis shows the number of days that amount of energy was imported from the grid. The 80th percentile is marked to assist in choosing
                     a battery size that will cover 80% of days.</p>
             <ResponsiveContainer width = '95%' height = {300}  >
                 <BarChart width={400} height={400} data={this.prepareData()}  margin={{top: 5, right: 5, left: 30, bottom: 5}} >
